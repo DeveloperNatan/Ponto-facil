@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Clock,
   LogIn,
@@ -19,6 +19,7 @@ export default function Point() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const { data: session } = useSession();
   const matriculaId = session?.user?.matriculaId;
+
   useState(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
@@ -26,12 +27,14 @@ export default function Point() {
     return () => clearInterval(interval);
   });
 
-  useState(() => {
-    const interval = setInterval(() => {
+  useEffect(() => {
+    if (!sucess) return;
+    const message = setInterval(() => {
       setSucess("");
-    }, 3000);
-    return () => clearInterval(interval);
-  });
+    }, 2000);
+
+    return () => clearInterval(message);
+  }, [sucess]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -92,7 +95,6 @@ export default function Point() {
           </div>
         </div>
 
-        {/* Formulário */}
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-b-2xl shadow-lg p-8"
@@ -103,7 +105,7 @@ export default function Point() {
               Tipo de Marcação
             </label>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => setMarkingType("Entrada")}
@@ -116,14 +118,25 @@ export default function Point() {
                 <LogIn className="w-8 h-8 mb-2" />
                 <span className="font-semibold">Entrada</span>
               </button>
-
+              <button
+                type="button"
+                onClick={() => setMarkingType("Pausa")}
+                className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
+                  markingType === "Pausa"
+                    ? "border-yellow-600 bg-yellow-50 text-yellow-700"
+                    : "border-gray-200 hover:border-yellow-400 text-gray-600"
+                }`}
+              >
+                <LogIn className="w-8 h-8 mb-2" />
+                <span className="font-semibold">Pausa</span>
+              </button>
               <button
                 type="button"
                 onClick={() => setMarkingType("Saída")}
                 className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
                   markingType === "Saída"
-                    ? "border-teal-600 bg-teal-50 text-teal-700"
-                    : "border-gray-200 hover:border-teal-400 text-gray-600"
+                    ? "border-red-600 bg-red-50 text-red-700"
+                    : "border-gray-200 hover:border-red-400 text-gray-600"
                 }`}
               >
                 <LogOut className="w-8 h-8 mb-2" />

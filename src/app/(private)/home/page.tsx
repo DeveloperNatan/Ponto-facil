@@ -1,21 +1,13 @@
 import { getServerSession } from "next-auth";
-import ButtonLogout from "./ButtonLogout";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerSession();
 
-  if (!session) {
-    redirect("/login");
-  }
   return (
-    <div>
-      <div>Olá, {session?.user?.name}</div>
-      <div className="text-white"> aqui {session?.user?.matriculaId}</div>
-      <div>{session?.user?.email}</div>
-      <div>
-        <ButtonLogout />
-      </div>
-    </div>
+    <main className="flex items-center justify-center h-screen bg-gray-50">
+      <h1 className="text-3xl font-semibold text-gray-800">
+        Olá, {session?.user?.name}
+      </h1>
+    </main>
   );
 }

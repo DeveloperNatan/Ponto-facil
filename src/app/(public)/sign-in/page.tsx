@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useState } from "react";
 import { UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -11,8 +12,10 @@ export default function Login() {
     email: "",
     senha: "",
     error: "",
+    sucess: "",
   });
 
+  const router = useRouter();
   async function CreateRegistry(e: React.FormEvent) {
     e.preventDefault();
 
@@ -25,20 +28,28 @@ export default function Login() {
 
     try {
       await axios.post("http://localhost:5144/api/employees", formData);
-
       setFormData({
         nome: "",
         cargo: "",
         email: "",
         senha: "",
         error: "",
+        sucess:
+          "Cadastro realizado com sucesso! Você será redirecionado em instantes para a página de login.",
       });
+
+      router.push("/login");
     } catch (err) {
-      console.log(err);
-      setFormData({
-        ...formData,
-        error: "Erro ao tentar criar usuario, favor tentar novamente!",
-      });
+      let message;
+
+      if (axios.isAxiosError(err)) {
+        const BackError = err.response?.data.message;
+        if (BackError) {
+          message = BackError;
+        }
+      }
+
+      setFormData({ ...formData, error: message });
     }
   }
 
@@ -144,6 +155,12 @@ export default function Login() {
                 placeholder="Crie uma senha forte"
               />
             </div>
+
+            {formData.sucess && (
+              <p className="text-green-500 text-sm text-center mt-1">
+                {formData.sucess}
+              </p>
+            )}
 
             {formData.error && (
               <p className="text-red-500 text-sm text-center mt-1">

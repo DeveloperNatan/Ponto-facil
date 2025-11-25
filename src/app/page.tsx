@@ -1,103 +1,144 @@
-import { Lightbulb, Smile } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function App() {
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50 ">
-      {/* Header/Navigation */}
-      <header className="bg-white dark:bg-slate-950 shadow-sm border-b border-slate-100 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <nav className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-14 h-14">
-                <Image
-                  src="/assets/logo.png"
-                  width={100}
-                  height={100}
-                  alt="Logo"
-                  className="rounded-lg"
-                />
-              </div>
-              <span className="text-xl font-bold text-slate-700 dark:text-white">
-                Ponto fácil
-              </span>
-            </div>
-            <div className="flex gap-3">
-              <a
-                href="/login"
-                className="px-4 py-2 text-slate-500 dark:text-slate-300 hover:text-teal-500 dark:hover:text-teal-300 transition-colors"
-              >
-                Login
-              </a>
-              <a
-                href="/sign-in"
-                className="px-4 py-2 bg-teal-400 text-white rounded-lg hover:bg-teal-500 transition-colors shadow-sm"
-              >
-                Sign-in
-              </a>
-            </div>
-          </nav>
-        </div>
-      </header>
+  const [formData, setFormData] = useState({
+    email: "",
+    senha: "",
+    error: "",
+  });
+  const router = useRouter();
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center space-y-6">
-          <div className="space-y-4 mt-10">
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-800 ">
-              Bem-vindo
+  async function FetchData(e: React.FormEvent) {
+    e.preventDefault();
+    const { email, senha } = formData;
+    if (!email || !senha) {
+      setFormData({ ...formData, error: "Preencha todos os campos!" });
+      return;
+    }
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password: senha,
+    });
+    if (res?.ok) {
+      setFormData({ email: "", senha: "", error: "" });
+      router.push("/home");
+    } else {
+      setFormData({ ...formData, error: "Email ou senha inválidos!" });
+    }
+  }
+
+  return (
+    <div className="min-h-screen w-full flex">
+      {/* Lado esquerdo: imagem + overlay teal */}
+      <div className="relative w-2/3 h-screen overflow-hidden">
+        <Image
+          src="/assets/imagemorg.jpg"
+          alt="Imagem organizacional"
+          fill
+          className="object-cover"
+        />
+        {/* <div className="absolute inset-0 bg-teal-500/40" /> */}
+      </div>
+
+      <div className="w-1/3 h-screen bg-white flex items-center justify-center">
+        <div className="w-full max-w-sm px-8">
+          <div className=" flex justify-center py-2 px-2">
+            <Image
+              src="/assets/logonew.png"
+              width={100}
+              height={100}
+              alt="logo"
+              className="rounded"
+            />
+          </div>
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-semibold text-gray-800 mb-1">
+              Acesse sua conta
             </h1>
-            <p className="text-xl text-balck-500 dark:text-slate-400 max-w-2xl mx-auto">
-              Uma solução simples e eficiente para registrar pontos
+            <p className="text-gray-500 text-sm">
+              Informe seu email e senha para continuar
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">
-            <a
-              href="/home"
-              className="px-8 py-3 bg-teal-400 text-white rounded-lg hover:bg-teal-500 transition-all shadow-md hover:shadow-lg font-medium"
+          {/* Formulário */}
+          <form onSubmit={FetchData} className="space-y-4">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm"
+                placeholder="usuario@dominio.com.br"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Senha
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.senha}
+                onChange={(e) =>
+                  setFormData({ ...formData, senha: e.target.value })
+                }
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm"
+                placeholder="Digite sua senha"
+              />
+            </div>
+
+            {formData.error && (
+              <p className="text-red-500 text-xs mt-1">{formData.error}</p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full cursor-pointer bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-md text-sm transition-colors"
             >
-              Acesse
-            </a>
+              Entrar
+            </button>
+          </form>
+
+          {/* Link de criar conta / extra */}
+          <div className="text-center mt-6">
+            <p className="text-xs text-gray-500">
+              Ainda não tem uma conta?{" "}
+              <a
+                href="/sign-in"
+                className="text-teal-500 hover:text-teal-600 font-medium"
+              >
+                Criar
+              </a>
+            </p>
           </div>
 
-          {/* Feature Cards */}
-          <div className="grid md:grid-cols-2 gap-6 pt-16">
-            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-              <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Lightbulb className="w-6 h-6 text-teal-500 dark:text-teal-300" />
-              </div>
-              <h3 className="text-lg font-semibold text-slate-700 dark:text-white mb-2">
-                Rápido
-              </h3>
-              <p className="text-slate-500 dark:text-slate-400">
-                Performance otimizada para melhor experiência
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-              <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Smile className="w-6 h-6 text-teal-500 dark:text-teal-300" />
-              </div>
-              <h3 className="text-lg font-semibold text-slate-700 dark:text-white mb-2">
-                Simples
-              </h3>
-              <p className="text-slate-500 dark:text-slate-400">
-                Interface intuitiva e fácil de usar
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 mt-auto">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <div className="text-center text-slate-500 dark:text-slate-400 text-sm">
+          {/* Rodapé pequeno na coluna */}
+          <div className="mt-8 text-center text-[11px] text-gray-400">
             © 2025 Ponto fácil. Todos os direitos reservados.
           </div>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }

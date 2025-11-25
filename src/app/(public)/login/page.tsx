@@ -44,17 +44,19 @@ export default function SignIn() {
   return (
     <div className="min-h-screen bg-green-50 flex items-center justify-center px-4 font-sans">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
+        <div className="text-center mb-4">
           <div className=" flex justify-center">
             <User className="w-14 h-14 text-white bg-teal-400 p-1 rounded-xl" />
           </div>
           <h1 className="text-3xl font-semibold text-gray-800 mb-2 mt-1">
             Login
           </h1>
-
-          <p className="text-gray-500 text-sm">
-            Preencha os campos necessários
-          </p>
+          <div className="py-2 px-2">
+            <p className="text-gray-500 text-sm">
+              Preencha os campos necessários
+            </p>
+            <p className="text-red-500 text-sm mt-2">Você está desconectado!</p>
+          </div>
         </div>
         <div className="bg-white rounded-lg p-8 border border-teal-500">
           <form onSubmit={FetchData}>
@@ -106,7 +108,7 @@ export default function SignIn() {
 
             <button
               type="submit"
-              className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-3 rounded-lg transition-colors duration-200 mt-3"
+              className="w-full cursor-pointer bg-teal-500 hover:bg-teal-600 text-white font-medium py-3 rounded-lg transition-colors duration-200 mt-3"
             >
               Entrar
             </button>

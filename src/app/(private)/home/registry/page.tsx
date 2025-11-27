@@ -8,6 +8,7 @@ import {
   CheckCircle,
   TriangleAlert,
   CircleCheck,
+  CirclePause,
 } from "lucide-react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -127,7 +128,7 @@ export default function Point() {
                     : "border-gray-200 hover:border-yellow-400 text-gray-600"
                 }`}
               >
-                <LogIn className="w-8 h-8 mb-2" />
+                <CirclePause className="w-8 h-8 mb-2" />
                 <span className="font-semibold">Pausa</span>
               </button>
               <button

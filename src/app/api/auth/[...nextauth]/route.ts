@@ -2,7 +2,6 @@ import axios from "axios";
 import NextAuth, { DefaultSession, type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-
 declare module "next-auth" {
   interface Session {
     user: {
@@ -10,6 +9,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      cargo?: string | null;
       matriculaId?: number;
     } & DefaultSession["user"];
   }
@@ -17,6 +17,7 @@ declare module "next-auth" {
   interface User {
     id?: string;
     matriculaId?: number;
+    cargo?: string;
   }
 }
 
@@ -24,6 +25,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     id?: string;
     matriculaId?: number;
+    cargo?: string;
   }
 }
 
@@ -51,12 +53,13 @@ export const authOptions: AuthOptions = {
           );
 
           const user = res.data;
-
+          console.log(user);
           if (user && res.status === 200) {
             return {
               id: user.id?.toString(),
               name: user.nome,
-              matriculaId: user.matriculaId
+              matriculaId: user.matriculaId,
+              cargo: user.cargo
             };
           }
 
@@ -79,18 +82,22 @@ export const authOptions: AuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-  async jwt({ token, user }) {
-    if (user) {
-      token.matriculaId = user.matriculaId;
-    }
-    return token;
-  },
-  async session({ session, token }) {
-    if (session.user) {
-      session.user.matriculaId = token.matriculaId;
-    }
-    return session;
-  },
+ async jwt({ token, user }) {
+  if (user) {
+    token.matriculaId = user.matriculaId;
+    token.cargo = user.cargo;
+    token.id = user.id;
+  }
+  return token;
+},
+async session({ session, token }) {
+  if (session.user) {
+    session.user.matriculaId = token.matriculaId;
+    session.user.cargo = token.cargo as string;
+    session.user.id = token.id as string;
+  }
+  return session;
+},
 },
 };
 

@@ -10,13 +10,13 @@ export default function Point() {
   const [data, setData] = useState<Marking[]>([]);
   const session = useSession();
   const user = session.data?.user.matriculaId;
-  const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
+  const ApiUrl = process.env.NEXT_PUBLIC_API as string;
 
   useEffect(() => {
     if (!user) return;
     async function fetch() {
       try {
-        const res = await axios.get(`${ApiUrl}/${user}/markings`);
+        const res = await axios.get(`${ApiUrl}/employees/${user}/markings`);
 
         setData(res.data);
       } catch {

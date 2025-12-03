@@ -20,7 +20,7 @@ export default function Login() {
     e.preventDefault();
 
     const { nome, cargo, email, senha } = formData;
-    const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
+    const ApiUrl = process.env.NEXT_PUBLIC_API as string;
 
     if (!ApiUrl || ApiUrl.includes("undefined")) {
       console.error("API nao carregada!");
@@ -32,7 +32,7 @@ export default function Login() {
     }
 
     try {
-      await axios.post(ApiUrl, formData, { timeout: 10000 });
+      await axios.post(`${ApiUrl}/employees`, formData);
       setFormData({
         nome: "",
         cargo: "",

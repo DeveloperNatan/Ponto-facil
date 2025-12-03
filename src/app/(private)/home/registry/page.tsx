@@ -20,7 +20,7 @@ export default function Point() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const { data: session } = useSession();
   const matriculaId = session?.user?.matriculaId;
-  const ApiUrl = process.env.NEXT_PUBLIC_API_MARKINGS as string;
+  const ApiUrl = process.env.NEXT_PUBLIC_API as string;
 
   useState(() => {
     const interval = setInterval(() => {
@@ -48,7 +48,7 @@ export default function Point() {
     }
 
     try {
-      await axios.post(ApiUrl, {
+      await axios.post(`${ApiUrl}/markings`, {
         matriculaId: matriculaId,
         markingType,
       });

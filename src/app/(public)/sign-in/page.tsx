@@ -22,10 +22,6 @@ export default function Login() {
     const { nome, cargo, email, senha } = formData;
     const ApiUrl = process.env.NEXT_PUBLIC_API as string;
 
-    if (!ApiUrl || ApiUrl.includes("undefined")) {
-      console.error("API nao carregada!");
-      return;
-    }
     if (!nome || !cargo || !email || !senha) {
       setFormData({ ...formData, error: "Todos os campos são obrigatórios. " });
       return;

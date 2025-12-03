@@ -28,7 +28,10 @@ export default function Login() {
     }
 
     try {
-      await axios.post(ApiUrl, formData);
+      await axios.post(
+        "https://timerecord-gymv.onrender.com/api/employees",
+        formData
+      );
       setFormData({
         nome: "",
         cargo: "",

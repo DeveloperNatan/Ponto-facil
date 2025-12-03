@@ -4,6 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: app-next
+    init: true  # Adiciona isso
     ports:
-      - "3030:3030"
+      - "3000:3000"
+    env_file:
+      - .env
     restart: unless-stopped

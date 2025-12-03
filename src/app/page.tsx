@@ -20,16 +20,22 @@ export default function App() {
       setFormData({ ...formData, error: "Preencha todos os campos!" });
       return;
     }
+
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password: senha,
     });
-    if (res?.ok) {
+    if (res?.error) {
+      setFormData({ ...formData, error: res.error });
+    } else if (res?.ok) {
       setFormData({ email: "", senha: "", error: "" });
       router.push("/home");
     } else {
-      setFormData({ ...formData, error: "Email ou senha inválidos!" });
+      setFormData({
+        ...formData,
+        error: "Houve algum erro interno ao tentar realizar login!",
+      });
     }
   }
 

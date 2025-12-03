@@ -8,10 +8,9 @@ import { CalendarDays, Clock, History } from "lucide-react";
 export default function Point() {
   const [error, setError] = useState("");
   const [data, setData] = useState<Marking[]>([]);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const session = useSession();
   const user = session.data?.user.matriculaId;
-  const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES;
+  const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
 
   useEffect(() => {
     if (!user) return;
@@ -74,6 +73,11 @@ export default function Point() {
           </h1>
           <div className="flex items-center gap-2 text-gray-500 text-sm">
             <History className="w-4 h-4" />
+            {error && (
+              <div>
+                <h1 className="text-red-600 text-base font-medium">{error}</h1>
+              </div>
+            )}
             <p>Histórico de pontos registrados</p>
           </div>
         </div>

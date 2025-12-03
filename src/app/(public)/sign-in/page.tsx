@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,7 @@ export default function Login() {
     e.preventDefault();
 
     const { nome, cargo, email, senha } = formData;
+    const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
 
     if (!nome || !cargo || !email || !senha) {
       setFormData({ ...formData, error: "Todos os campos são obrigatórios. " });
@@ -27,7 +28,7 @@ export default function Login() {
     }
 
     try {
-      await axios.post("http://localhost:5144/api/employees", formData);
+      await axios.post(ApiUrl, formData);
       setFormData({
         nome: "",
         cargo: "",

@@ -1,7 +1,6 @@
-// app/SessionProviderWrapper.tsx
-"use client"; // essencial para habilitar React Context
+"use client";
 
-import { Session } from "inspector/promises";
+import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 

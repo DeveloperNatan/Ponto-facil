@@ -84,17 +84,17 @@ export default async function Home() {
           </h2>
 
           <div className="flex gap-4 justify-center">
-            <button className="p-4 cursor-pointer rounded-xl bg-green-50 hover:bg-green-100 transition-colors group">
+            <div className="p-4 cursor-pointer rounded-xl bg-green-50 hover:bg-green-100 transition-colors group">
               <Smile className="w-10 h-10 text-green-500 group-hover:scale-110 transition-transform" />
-            </button>
+            </div>
 
-            <button className="p-4 cursor-pointer rounded-xl bg-yellow-50 hover:bg-yellow-100 transition-colors group">
+            <div className="p-4 cursor-pointer rounded-xl bg-yellow-50 hover:bg-yellow-100 transition-colors group">
               <Meh className="w-10 h-10 text-yellow-500 group-hover:scale-110 transition-transform" />
-            </button>
+            </div>
 
-            <button className="p-4 cursor-pointer rounded-xl bg-red-50 hover:bg-red-100 transition-colors group">
+            <div className="p-4 cursor-pointer rounded-xl bg-red-50 hover:bg-red-100 transition-colors group">
               <Frown className="w-10 h-10 text-red-500 group-hover:scale-110 transition-transform" />
-            </button>
+            </div>
           </div>
         </div>
       </div>

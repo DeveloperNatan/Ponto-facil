@@ -29,8 +29,10 @@ declare module "next-auth/jwt" {
   }
 }
 
+const ApiUrl = process.env.NEXT_PUBLIC_API_USER_LOGIN as string;
 
 export const authOptions: AuthOptions = {
+  
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -43,9 +45,10 @@ export const authOptions: AuthOptions = {
       },
 
       async authorize(credentials) {
+     
         try {
           const res = await axios.post(
-            "http://localhost:5144/api/employees/login",
+            ApiUrl,
             {
               email: credentials?.email,
               senha: credentials?.password,
@@ -53,20 +56,24 @@ export const authOptions: AuthOptions = {
           );
 
           const user = res.data;
-          console.log(user);
+       
           if (user && res.status === 200) {
             return {
               id: user.id?.toString(),
               name: user.nome,
               matriculaId: user.matriculaId,
-              cargo: user.cargo
+              cargo: user.cargo,
             };
           }
 
           return null;
-        } catch (err) {
-          console.error("Erro no authorize:", err);
-          return null;
+        } catch (error) {
+          let message;
+          if (axios.isAxiosError(error)) {
+            message =  error.response?.data?.message;
+            throw new Error(message);
+          }
+          throw new Error(message);
         }
       },
     }),
@@ -82,26 +89,24 @@ export const authOptions: AuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
- async jwt({ token, user }) {
-  if (user) {
-    token.matriculaId = user.matriculaId;
-    token.cargo = user.cargo;
-    token.id = user.id;
-  }
-  return token;
-},
-async session({ session, token }) {
-  if (session.user) {
-    session.user.matriculaId = token.matriculaId;
-    session.user.cargo = token.cargo as string;
-    session.user.id = token.id as string;
-  }
-  return session;
-},
-},
+    async jwt({ token, user }) {
+      if (user) {
+        token.matriculaId = user.matriculaId;
+        token.cargo = user.cargo;
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.matriculaId = token.matriculaId;
+        session.user.cargo = token.cargo as string;
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
 };
-
-
 
 const handler = NextAuth(authOptions);
 

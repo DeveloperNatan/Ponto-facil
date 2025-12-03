@@ -22,16 +22,17 @@ export default function Login() {
     const { nome, cargo, email, senha } = formData;
     const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
 
+    if (!ApiUrl || ApiUrl.includes("undefined")) {
+      console.error("API nao carregada!");
+      return;
+    }
     if (!nome || !cargo || !email || !senha) {
       setFormData({ ...formData, error: "Todos os campos são obrigatórios. " });
       return;
     }
 
     try {
-      await axios.post(
-        "https://timerecord-gymv.onrender.com/api/employees",
-        formData
-      );
+      await axios.post(ApiUrl, formData, { timeout: 10000 });
       setFormData({
         nome: "",
         cargo: "",

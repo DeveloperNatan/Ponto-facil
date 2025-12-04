@@ -20,7 +20,7 @@ export default function Login() {
     e.preventDefault();
 
     const { nome, cargo, email, senha } = formData;
-    const ApiUrl = process.env.NEXT_PUBLIC_API as string;
+    const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
 
     if (!nome || !cargo || !email || !senha) {
       setFormData({ ...formData, error: "Todos os campos são obrigatórios. " });
@@ -28,7 +28,7 @@ export default function Login() {
     }
 
     try {
-      await axios.post(`${ApiUrl}/api/employees`, formData);
+      await axios.post(ApiUrl, formData);
       setFormData({
         nome: "",
         cargo: "",

@@ -25,5 +25,5 @@ O frontend consome a API .NET (TimeRecord) para autenticação, cadastro de cola
 
 ## Links importantes
 
-- Repositório: https://github.com/DeveloperNatan/Ponto-facil
+- Repositório Back-end : https://github.com/DeveloperNatan/TimeRecord
 - Deploy (Vercel): https://ponto-facil-gilt.vercel.app

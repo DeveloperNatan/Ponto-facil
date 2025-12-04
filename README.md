@@ -1,4 +1,4 @@
-# Ponto Fácil – Frontend
+# ⌚Ponto Fácil – Frontend
 
 ## Visão geral do projeto
 

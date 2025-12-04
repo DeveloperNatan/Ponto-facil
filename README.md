@@ -1,37 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ponto Fácil – Frontend
 
-## Getting Started
+## Visão geral do projeto
 
-First, run the development server:
+Interface web do sistema Ponto Fácil, responsável pelo registro e acompanhamento de ponto dos funcionários.  
+O frontend consome a API .NET (TimeRecord) para autenticação, cadastro de colaboradores e gerenciamento das marcações de ponto.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tecnologias
 
-how to use docker
+- Next.js (React, App Router)
+- TypeScript
+- NextAuth (autenticação)
+- Axios
+- Tailwind CSS
+- Docker
+- Git
 
-# Subir os containers
+## Funcionalidades principais
 
-docker-compose up
+- Autenticação de usuários com NextAuth (fluxo de login protegido).
+- Painel do colaborador com dados pessoais (nome, cargo, etc.).
+- Tela de registro de ponto (bater ponto) integrada ao backend.
+- Página de histórico de marcações de ponto por dia.
+- Rotas privadas sob `/home` (dashboard, registro, histórico).
 
-# Subir em background (detached)
+## Links importantes
 
-docker-compose up -d
-
-# Rebuild e subir (quando muda código)
-
-docker-compose up --build
-
-# Parar os containers
-
-docker-compose down
-
-# Ver logs
-
-docker-compose logs -f
+- Repositório: https://github.com/DeveloperNatan/Ponto-facil
+- Deploy (Vercel): https://ponto-facil-gilt.vercel.app

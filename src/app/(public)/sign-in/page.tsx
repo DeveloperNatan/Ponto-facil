@@ -28,7 +28,7 @@ export default function Login() {
     }
 
     try {
-      await axios.post(`${ApiUrl}api/employees`, formData);
+      await axios.post(`${ApiUrl}/api/employees`, formData);
       setFormData({
         nome: "",
         cargo: "",

@@ -48,6 +48,10 @@ export default function Point() {
     }
 
     try {
+      console.log("NEXT_PUBLIC_API:", process.env.NEXT_PUBLIC_API);
+      const url = `${process.env.NEXT_PUBLIC_API}/api/markings`;
+      console.log("URL FINAL:", url);
+
       await axios.post(`${ApiUrl}/api/markings`, {
         matriculaId: matriculaId,
         markingType,

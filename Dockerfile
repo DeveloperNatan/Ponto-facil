@@ -5,6 +5,8 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
+ENV NEXT_PUBLIC_API=${NEXT_PUBLIC_API}
+
 RUN npm ci
 
 COPY . .

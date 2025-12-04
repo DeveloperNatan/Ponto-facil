@@ -14,9 +14,11 @@ export default function Point() {
 
   useEffect(() => {
     if (!user) return;
+    console.log(user);
     async function fetch() {
       try {
-        const res = await axios.get(`${ApiUrl}/employees/${user}/markings`);
+        const res = await axios.get(`${ApiUrl}api/employees/${user}/markings`);
+        console.log(user);
 
         setData(res.data);
       } catch {

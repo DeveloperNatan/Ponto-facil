@@ -48,7 +48,7 @@ export default function Point() {
     }
 
     try {
-      await axios.post(`${ApiUrl}api/markings`, {
+      await axios.post(`${ApiUrl}/api/markings`, {
         matriculaId: matriculaId,
         markingType,
       });

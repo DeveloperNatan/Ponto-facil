@@ -17,7 +17,7 @@ export default function Point() {
     console.log(user);
     async function fetch() {
       try {
-        const res = await axios.get(`${ApiUrl}api/employees/${user}/markings`);
+        const res = await axios.get(`${ApiUrl}/api/employees/${user}/markings`);
         console.log(user);
 
         setData(res.data);

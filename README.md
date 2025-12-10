@@ -27,3 +27,9 @@ O frontend consome a API .NET (TimeRecord) para autenticação, cadastro de cola
 
 - Repositório Back-end : https://github.com/DeveloperNatan/TimeRecord
 - Deploy (Vercel): https://ponto-facil-gilt.vercel.app
+
+
+## ⚠️ Observação
+O Backend está hospedado em uma plataforma gratuita (Render Free Tier).  
+Por isso, o servidor pode **resetar automaticamente** após algum tempo de inatividade, o que pode causar demora na primeira requisição ou reinício temporário da aplicação.  
+Isso é um comportamento normal da plataforma e não indica erro no projeto.

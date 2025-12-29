@@ -1,4 +1,5 @@
 import SessionProviderWrapper from "./SessionProviderWrapper";
+
 import "./globals.css";
 
 export const metadata = {

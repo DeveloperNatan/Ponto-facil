@@ -10,16 +10,14 @@ export default function Point() {
   const [data, setData] = useState<Marking[]>([]);
   const session = useSession();
   const user = session.data?.user.matriculaId;
-  const ApiUrl = process.env.NEXT_PUBLIC_API as string;
+  const ApiUrl = process.env.NEXT_PUBLIC_API_EMPLOYEES as string;
 
   useEffect(() => {
     if (!user) return;
-    console.log(user);
+  
     async function fetch() {
       try {
-        const res = await axios.get(`${ApiUrl}/api/employees/${user}/markings`);
-        console.log(user);
-
+        const res = await axios.get(`${ApiUrl}${user}/markings`);
         setData(res.data);
       } catch {
         setError("Nenhuma marcação encontrada!");

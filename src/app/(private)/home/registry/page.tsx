@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Clock,
-  LogIn,
-  LogOut,
   CheckCircle,
   TriangleAlert,
   CircleCheck,
@@ -13,19 +11,22 @@ import {
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
+
 export default function Point() {
-  const [markingType, setMarkingType] = useState("");
   const [error, setError] = useState("");
   const [sucess, setSucess] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const { data: session } = useSession();
   const matriculaId = session?.user?.matriculaId;
-  const ApiUrl = process.env.NEXT_PUBLIC_API as string;
+  const ApiUrl = process.env.NEXT_PUBLIC_API_MARKINGS as string;
 
   useState(() => {
+    setCurrentTime(new Date());
+
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
+
     return () => clearInterval(interval);
   });
 
@@ -41,23 +42,13 @@ export default function Point() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!markingType) {
-      setSucess("");
-      setError("Selecione o tipo de marcação!");
-      return;
-    }
+
 
     try {
-      console.log("NEXT_PUBLIC_API:", process.env.NEXT_PUBLIC_API);
-      const url = `${process.env.NEXT_PUBLIC_API}/api/markings`;
-      console.log("URL FINAL:", url);
-
-      await axios.post(`${ApiUrl}/api/markings`, {
+      await axios.post(ApiUrl, {
         matriculaId: matriculaId,
-        markingType,
       });
 
-      setMarkingType("");
       setError("");
       setSucess("Seu ponto foi registrado!");
     } catch (err) {
@@ -71,15 +62,15 @@ export default function Point() {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-    });
+    })
 
   const formatDate = () =>
-    currentTime.toLocaleDateString("pt-BR", {
+     currentTime.toLocaleDateString("pt-BR", {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
-    });
+    })
 
   return (
     <div className="min-h-screen bg-linear-to-br from-teal-50 to-emerald-100 flex flex-col items-center justify-center p-4">
@@ -105,52 +96,6 @@ export default function Point() {
           onSubmit={handleSubmit}
           className="bg-white rounded-b-2xl shadow-lg p-8"
         >
-          {/* Tipo de Marcação */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Tipo de Marcação
-            </label>
-
-            <div className="grid grid-cols-3 gap-3">
-              <button
-                type="button"
-                onClick={() => setMarkingType("Entrada")}
-                className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
-                  markingType === "Entrada"
-                    ? "border-emerald-600 bg-emerald-50 text-emerald-700"
-                    : "border-gray-200 hover:border-emerald-400 text-gray-600"
-                }`}
-              >
-                <LogIn className="w-8 h-8 mb-2" />
-                <span className="font-semibold">Entrada</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setMarkingType("Pausa")}
-                className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
-                  markingType === "Pausa"
-                    ? "border-yellow-600 bg-yellow-50 text-yellow-700"
-                    : "border-gray-200 hover:border-yellow-400 text-gray-600"
-                }`}
-              >
-                <CirclePause className="w-8 h-8 mb-2" />
-                <span className="font-semibold">Pausa</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setMarkingType("Saída")}
-                className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all ${
-                  markingType === "Saída"
-                    ? "border-red-600 bg-red-50 text-red-700"
-                    : "border-gray-200 hover:border-red-400 text-gray-600"
-                }`}
-              >
-                <LogOut className="w-8 h-8 mb-2" />
-                <span className="font-semibold">Saída</span>
-              </button>
-            </div>
-          </div>
-
           {/* Botão de envio */}
           <div className="w-full h-full flex justify-center">
             <button

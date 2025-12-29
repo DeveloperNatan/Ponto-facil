@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import AlertOnEnter from "./alertEnter";
+
 
 export default function App() {
   const [formData, setFormData] = useState({
@@ -41,6 +43,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full flex">
+      <AlertOnEnter/>
       {/* Lado esquerdo: imagem + overlay teal */}
       <div className="relative w-2/3 h-screen overflow-hidden">
         <Image
